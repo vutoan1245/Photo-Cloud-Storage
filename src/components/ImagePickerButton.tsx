@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 
 import { uploadData } from "aws-amplify/storage";
@@ -37,12 +37,9 @@ const ImageButton = () => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
-      {/* Floating Plus Button */}
-      <TouchableOpacity style={styles.floatingButton} onPress={pickImage}>
-        <Text style={styles.floatingButtonText}>+</Text>
-      </TouchableOpacity>
-    </View>
+    <TouchableOpacity style={styles.floatingButton} onPress={pickImage}>
+      <Text style={styles.floatingButtonText}>+</Text>
+    </TouchableOpacity>
   );
 };
 
