@@ -1,13 +1,4 @@
-import { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-  Alert,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 
 import { uploadData } from "aws-amplify/storage";
@@ -26,15 +17,12 @@ const ImageButton = () => {
 
       try {
         result.assets.map(async (asset: any) => {
-          console.log("asset", asset);
           const response = await fetch(asset.uri);
           const arrayBuffer = await response.arrayBuffer();
 
           // Generate a unique filename
           const filename = `${Date.now()}-${asset.uri.split("/").pop()}`;
 
-          console.log("filename", filename);
-          console.log("image response", response);
           await uploadData({
             path: `photos/${userId}/${filename}`,
             data: arrayBuffer,
@@ -70,21 +58,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  imageContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-  },
   floatingButtonText: {
     color: "white",
     fontSize: 28,
     fontWeight: "bold",
-  },
-  selectedImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 10,
-    margin: 10,
   },
 });
 
