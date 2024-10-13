@@ -16,7 +16,7 @@ const ImageButton = () => {
       const { userId } = await getCurrentUser();
 
       try {
-        result.assets.map(async (asset: any) => {
+        await result.assets.map(async (asset: any) => {
           const response = await fetch(asset.uri);
           const arrayBuffer = await response.arrayBuffer();
 
@@ -27,9 +27,9 @@ const ImageButton = () => {
             path: `photos/${userId}/${filename}`,
             data: arrayBuffer,
           });
-
-          Alert.alert("Success", "Images uploaded successfully!");
         });
+
+        Alert.alert("Success", "Images uploaded successfully!");
       } catch (error) {
         console.log("Error uploading image:", error);
       }
