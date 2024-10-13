@@ -5,9 +5,13 @@ import {
   Image,
   ScrollView,
   ActivityIndicator,
+  Dimensions,
 } from "react-native";
 
 const ImageGallery = ({ photos, loading }) => {
+  const screenWidth = Dimensions.get("window").width;
+  const imageWidth = (screenWidth - 9) / 4;
+
   return (
     <>
       {loading ? (
@@ -19,7 +23,7 @@ const ImageGallery = ({ photos, loading }) => {
               <Image
                 key={photo}
                 source={{ uri: photo.uri.toString() }}
-                style={styles.image}
+                style={[{ width: imageWidth, height: imageWidth }]}
               />
             ))}
           </View>
@@ -36,13 +40,9 @@ const styles = StyleSheet.create({
   galleryContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "center",
-    padding: 5,
-  },
-  image: {
-    width: 100,
-    height: 100,
-    margin: 5,
+    justifyContent: "flex-start",
+    columnGap: 3,
+    rowGap: 3,
   },
   loadingIndicator: {
     flex: 1,
