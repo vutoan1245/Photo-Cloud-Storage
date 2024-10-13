@@ -6,41 +6,8 @@ import {
   ScrollView,
   ActivityIndicator,
 } from "react-native";
-import { list, getUrl } from "aws-amplify/storage";
-import { getCurrentUser } from "aws-amplify/auth";
 
-const ImageGallery = () => {
-  const [photos, setPhotos] = useState<any[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  const getImages = async () => {
-    try {
-      const { userId } = await getCurrentUser();
-      const result = await list({
-        path: `photos/${userId}/`,
-      });
-
-      const urls = await Promise.all(
-        result.items.map(async (item) => {
-          const url = await getUrl({
-            path: item.path,
-          });
-          return url.url;
-        })
-      );
-
-      setPhotos(urls);
-    } catch (error) {
-      console.log("Error fetching images:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    getImages();
-  }, []);
-
+const ImageGallery = ({ photos, loading }) => {
   return (
     <>
       {loading ? (
@@ -48,10 +15,10 @@ const ImageGallery = () => {
       ) : (
         <ScrollView contentContainerStyle={styles.scrollView}>
           <View style={styles.galleryContainer}>
-            {photos.map((photo) => (
+            {photos.map((photo: any) => (
               <Image
                 key={photo}
-                source={{ uri: photo.toString() }}
+                source={{ uri: photo.uri.toString() }}
                 style={styles.image}
               />
             ))}
