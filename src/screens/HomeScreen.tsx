@@ -22,7 +22,7 @@ const HomePage = () => {
           const path = await getUrl({
             path: item.path,
           });
-          return { uri: path.url };
+          return { source: { uri: path.url.toString() } };
         })
       );
 

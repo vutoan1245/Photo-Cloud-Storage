@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   View,
   StyleSheet,
@@ -8,7 +8,18 @@ import {
   Dimensions,
 } from "react-native";
 
-const ImageGallery = ({ photos, loading }) => {
+// Define the type for a single photo object
+type Photo = {
+  source: { uri: string };
+};
+
+// Define the props for ImageGallery
+interface ImageGalleryProps {
+  photos: Photo[];
+  loading: boolean;
+}
+
+const ImageGallery: React.FC<ImageGalleryProps> = ({ photos, loading }) => {
   const screenWidth = Dimensions.get("window").width;
   const imageWidth = (screenWidth - 9) / 4;
 
@@ -21,8 +32,8 @@ const ImageGallery = ({ photos, loading }) => {
           <View style={styles.galleryContainer}>
             {photos.map((photo: any) => (
               <Image
-                key={photo}
-                source={{ uri: photo.uri.toString() }}
+                key={photo.source.uri}
+                source={{ uri: photo.source.uri }}
                 style={[{ width: imageWidth, height: imageWidth }]}
               />
             ))}
