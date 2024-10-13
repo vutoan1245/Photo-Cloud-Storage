@@ -21,14 +21,14 @@ const SignOutButton = () => {
     <View style={styles.buttonContainer}>
       <TouchableOpacity onPress={() => {}}>
         <Image
-          source={require("./assets/select-icon.png")} // Left aligned icon
+          source={require("./assets/select-icon.png")}
           style={styles.icon}
         />
       </TouchableOpacity>
 
       <TouchableOpacity onPress={signOut}>
         <Image
-          source={require("./assets/signout-icon.png")} // Right aligned icon
+          source={require("./assets/signout-icon.png")}
           style={styles.icon}
         />
       </TouchableOpacity>
@@ -55,10 +55,10 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   buttonContainer: {
-    flexDirection: "row", // Aligns items in a row
-    justifyContent: "space-between", // Pushes icons to opposite ends
-    alignItems: "center", // Vertically centers the icons
-    paddingHorizontal: 20, // Add horizontal padding to the container
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 20,
     paddingBottom: 10,
   },
   icon: {
