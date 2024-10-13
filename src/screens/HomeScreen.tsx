@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 
 import ImagePickerButton from "../components/ImagePickerButton";
-import ImageGallery from "../components/ImageGallery";
+import Gallery from "../components/ImageGallery";
 import { getCurrentUser } from "aws-amplify/auth";
 import { getUrl, list } from "aws-amplify/storage";
 
@@ -18,11 +18,11 @@ const HomePage = () => {
       });
 
       const urls = await Promise.all(
-        result.items.map(async (item) => {
+        result.items.map(async (item, index) => {
           const path = await getUrl({
             path: item.path,
           });
-          return { source: { uri: path.url.toString() } };
+          return { id: index, url: path.url.toString() };
         })
       );
 
@@ -40,7 +40,7 @@ const HomePage = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <ImageGallery photos={photos} loading={loading} />
+      <Gallery photos={photos} loading={loading} />
       <ImagePickerButton />
     </View>
   );

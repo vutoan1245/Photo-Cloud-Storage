@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
@@ -6,20 +6,31 @@ import {
   ScrollView,
   ActivityIndicator,
   Dimensions,
+  TouchableOpacity,
 } from "react-native";
+import { ImageGallery } from "@georstat/react-native-image-gallery";
 
 // Define the type for a single photo object
 type Photo = {
-  source: { uri: string };
+  id: number;
+  url: string;
 };
 
 // Define the props for ImageGallery
-interface ImageGalleryProps {
+interface GalleryProps {
   photos: Photo[];
   loading: boolean;
 }
 
-const ImageGallery: React.FC<ImageGalleryProps> = ({ photos, loading }) => {
+const Gallery: React.FC<GalleryProps> = ({ photos, loading }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [initialIndex, setInitialIndex] = useState(0);
+  const openGallery = (index: number) => {
+    setInitialIndex(index);
+    setIsOpen(true);
+  };
+  const closeGallery = () => setIsOpen(false);
+
   const screenWidth = Dimensions.get("window").width;
   const imageWidth = (screenWidth - 9) / 4;
 
@@ -30,14 +41,22 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ photos, loading }) => {
       ) : (
         <ScrollView contentContainerStyle={styles.scrollView}>
           <View style={styles.galleryContainer}>
-            {photos.map((photo: any) => (
-              <Image
-                key={photo.source.uri}
-                source={{ uri: photo.source.uri }}
-                style={[{ width: imageWidth, height: imageWidth }]}
-              />
+            {photos.map((photo: Photo, index: number) => (
+              <TouchableOpacity onPress={() => openGallery(index)}>
+                <Image
+                  key={photo.url}
+                  source={{ uri: photo.url }}
+                  style={[{ width: imageWidth, height: imageWidth }]}
+                />
+              </TouchableOpacity>
             ))}
           </View>
+          <ImageGallery
+            close={closeGallery}
+            isOpen={isOpen}
+            images={photos}
+            initialIndex={initialIndex}
+          />
         </ScrollView>
       )}
     </>
@@ -61,4 +80,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ImageGallery;
+export default Gallery;
