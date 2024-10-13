@@ -10,13 +10,11 @@ import {
 } from "react-native";
 import { ImageGallery } from "@georstat/react-native-image-gallery";
 
-// Define the type for a single photo object
 type Photo = {
   id: number;
   url: string;
 };
 
-// Define the props for ImageGallery
 interface GalleryProps {
   photos: Photo[];
   loading: boolean;
