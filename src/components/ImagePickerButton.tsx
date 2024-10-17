@@ -7,6 +7,7 @@ import { getCurrentUser } from "aws-amplify/auth";
 interface Photo {
   id: number;
   url: string;
+  isSelected: boolean;
 }
 
 interface ImageButtonProps {
@@ -41,7 +42,8 @@ const ImageButton: React.FC<ImageButtonProps> = ({ addPhotos }) => {
             // Create Photo object for each uploaded image
             return {
               id: index,
-              url: asset.uri, // Assuming the uploaded URL is the same as the local URI
+              url: asset.uri,
+              isSelected: false,
             };
           })
         );

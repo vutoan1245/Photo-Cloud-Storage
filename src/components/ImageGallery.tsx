@@ -13,6 +13,7 @@ import { ImageGallery } from "@georstat/react-native-image-gallery";
 type Photo = {
   id: number;
   url: string;
+  isSelected: boolean;
 };
 
 interface GalleryProps {
@@ -40,11 +41,16 @@ const Gallery: React.FC<GalleryProps> = ({ photos, loading }) => {
         <ScrollView contentContainerStyle={styles.scrollView}>
           <View style={styles.galleryContainer}>
             {photos.map((photo: Photo, index: number) => (
-              <TouchableOpacity onPress={() => openGallery(index)}>
+              <TouchableOpacity
+                key={photo.id}
+                onPress={() => openGallery(index)}
+              >
                 <Image
-                  key={photo.url}
                   source={{ uri: photo.url }}
-                  style={[{ width: imageWidth, height: imageWidth }]}
+                  style={[
+                    { width: imageWidth, height: imageWidth },
+                    photo.isSelected && styles.selectedPhoto,
+                  ]}
                 />
               </TouchableOpacity>
             ))}
@@ -75,6 +81,10 @@ const styles = StyleSheet.create({
   loadingIndicator: {
     flex: 1,
     justifyContent: "center",
+  },
+  selectedPhoto: {
+    borderColor: "blue",
+    borderWidth: 3,
   },
 });
 

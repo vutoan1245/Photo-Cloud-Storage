@@ -10,6 +10,7 @@ import HeaderBar from "../components/HeaderBar";
 interface Photo {
   id: number;
   url: string;
+  isSelected: boolean;
 }
 
 const HomePage = () => {
@@ -28,7 +29,7 @@ const HomePage = () => {
           const path = await getUrl({
             path: item.path,
           });
-          return { id: index, url: path.url.toString() };
+          return { id: index, url: path.url.toString(), isSelected: false };
         })
       );
 
