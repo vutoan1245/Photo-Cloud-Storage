@@ -5,6 +5,7 @@ import ImagePickerButton from "../components/ImagePickerButton";
 import Gallery from "../components/ImageGallery";
 import { getCurrentUser } from "aws-amplify/auth";
 import { getUrl, list } from "aws-amplify/storage";
+import HeaderBar from "../components/HeaderBar";
 
 interface Photo {
   id: number;
@@ -45,6 +46,7 @@ const HomePage = () => {
 
   return (
     <View style={{ flex: 1 }}>
+      <HeaderBar />
       <Gallery photos={photos} loading={loading} />
       <ImagePickerButton />
     </View>
