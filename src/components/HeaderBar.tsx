@@ -1,19 +1,38 @@
 import React from "react";
-import { View, TouchableOpacity, StyleSheet, Image } from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { useAuthenticator } from "@aws-amplify/ui-react-native";
 
-const HeaderBar = () => {
+interface HeaderBarProps {
+  isSelecting: boolean;
+  setSelect: () => void;
+  cancelSelect: () => void;
+}
+
+const HeaderBar: React.FC<HeaderBarProps> = ({
+  isSelecting,
+  setSelect,
+  cancelSelect,
+}) => {
   const { signOut } = useAuthenticator();
 
   return (
     <View style={styles.headerContainer}>
-      <TouchableOpacity onPress={() => {}}>
-        <Image
-          source={require("../../assets/select-icon.png")}
-          style={styles.icon}
-        />
-      </TouchableOpacity>
-
+      {!isSelecting ? (
+        <TouchableOpacity
+          onPress={() => {
+            setSelect();
+          }}
+        >
+          <Image
+            source={require("../../assets/select-icon.png")}
+            style={styles.icon}
+          />
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity onPress={() => cancelSelect()}>
+          <Text>Cancel</Text>
+        </TouchableOpacity>
+      )}
       <TouchableOpacity onPress={signOut}>
         <Image
           source={require("../../assets/signout-icon.png")}

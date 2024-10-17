@@ -19,9 +19,16 @@ type Photo = {
 interface GalleryProps {
   photos: Photo[];
   loading: boolean;
+  isSelecting: boolean;
+  toggleSelection: (id: number) => void;
 }
 
-const Gallery: React.FC<GalleryProps> = ({ photos, loading }) => {
+const Gallery: React.FC<GalleryProps> = ({
+  photos,
+  loading,
+  isSelecting,
+  toggleSelection,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [initialIndex, setInitialIndex] = useState(0);
   const openGallery = (index: number) => {
@@ -43,7 +50,13 @@ const Gallery: React.FC<GalleryProps> = ({ photos, loading }) => {
             {photos.map((photo: Photo, index: number) => (
               <TouchableOpacity
                 key={photo.id}
-                onPress={() => openGallery(index)}
+                onPress={() => {
+                  if (isSelecting) {
+                    toggleSelection(photo.id);
+                  } else {
+                    openGallery(index);
+                  }
+                }}
               >
                 <Image
                   source={{ uri: photo.url }}

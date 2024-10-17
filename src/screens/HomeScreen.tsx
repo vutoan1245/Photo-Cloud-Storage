@@ -15,6 +15,7 @@ interface Photo {
 
 const HomePage = () => {
   const [photos, setPhotos] = useState<Photo[]>([]);
+  const [isSelecting, setIsSelecting] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
   const getImages = async () => {
@@ -45,14 +46,38 @@ const HomePage = () => {
     setPhotos([...newPhotos, ...photos]);
   };
 
+  const setSelect = () => {
+    setIsSelecting(true);
+  };
+
+  const cancelSelect = () => {
+    setIsSelecting(false);
+  };
+
+  const toggleSelection = (id: number) => {
+    setPhotos((prevPhotos) =>
+      prevPhotos.map((photo) =>
+        photo.id === id ? { ...photo, isSelected: !photo.isSelected } : photo
+      )
+    );
+  };
   useEffect(() => {
     getImages();
   }, []);
 
   return (
     <View style={{ flex: 1 }}>
-      <HeaderBar />
-      <Gallery photos={photos} loading={loading} />
+      <HeaderBar
+        isSelecting={isSelecting}
+        setSelect={setSelect}
+        cancelSelect={cancelSelect}
+      />
+      <Gallery
+        photos={photos}
+        loading={loading}
+        isSelecting={isSelecting}
+        toggleSelection={toggleSelection}
+      />
       <ImagePickerButton addPhotos={addPhotos} />
     </View>
   );
