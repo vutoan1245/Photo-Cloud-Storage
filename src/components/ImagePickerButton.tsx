@@ -16,7 +16,7 @@ const ImageButton = () => {
       const { userId } = await getCurrentUser();
 
       try {
-        await result.assets.map(async (asset: any) => {
+        await result.assets.map(async (asset) => {
           const response = await fetch(asset.uri);
           const arrayBuffer = await response.arrayBuffer();
 
