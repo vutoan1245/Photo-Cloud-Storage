@@ -1,10 +1,19 @@
 import { Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-
 import { uploadData } from "aws-amplify/storage";
 import { getCurrentUser } from "aws-amplify/auth";
 
-const ImageButton = () => {
+// Define the Photo type
+interface Photo {
+  id: number;
+  url: string;
+}
+
+interface ImageButtonProps {
+  addPhotos: (photos: Photo[]) => void;
+}
+
+const ImageButton: React.FC<ImageButtonProps> = ({ addPhotos }) => {
   const pickImage = async () => {
     // Ask for permission to access media library
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -16,18 +25,29 @@ const ImageButton = () => {
       const { userId } = await getCurrentUser();
 
       try {
-        await result.assets.map(async (asset) => {
-          const response = await fetch(asset.uri);
-          const arrayBuffer = await response.arrayBuffer();
+        const uploadedPhotos: Photo[] = await Promise.all(
+          result.assets.map(async (asset, index) => {
+            const response = await fetch(asset.uri);
+            const arrayBuffer = await response.arrayBuffer();
 
-          // Generate a unique filename
-          const filename = `${Date.now()}-${asset.uri.split("/").pop()}`;
+            // Generate a unique filename
+            const filename = `${Date.now()}-${asset.uri.split("/").pop()}`;
 
-          await uploadData({
-            path: `photos/${userId}/${filename}`,
-            data: arrayBuffer,
-          });
-        });
+            await uploadData({
+              path: `photos/${userId}/${filename}`,
+              data: arrayBuffer,
+            });
+
+            // Create Photo object for each uploaded image
+            return {
+              id: index,
+              url: asset.uri, // Assuming the uploaded URL is the same as the local URI
+            };
+          })
+        );
+
+        // Call the addPhotos function with the uploaded photos
+        addPhotos(uploadedPhotos);
 
         Alert.alert("Success", "Images uploaded successfully!");
       } catch (error) {

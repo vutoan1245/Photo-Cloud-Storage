@@ -40,6 +40,10 @@ const HomePage = () => {
     }
   };
 
+  const addPhotos = (newPhotos: Photo[]) => {
+    setPhotos([...newPhotos, ...photos]);
+  };
+
   useEffect(() => {
     getImages();
   }, []);
@@ -48,7 +52,7 @@ const HomePage = () => {
     <View style={{ flex: 1 }}>
       <HeaderBar />
       <Gallery photos={photos} loading={loading} />
-      <ImagePickerButton />
+      <ImagePickerButton addPhotos={addPhotos} />
     </View>
   );
 };
