@@ -6,14 +6,13 @@ import Gallery from "../components/ImageGallery";
 import { getCurrentUser } from "aws-amplify/auth";
 import { getUrl, list } from "aws-amplify/storage";
 
-// Define the type for each photo object
 interface Photo {
   id: number;
   url: string;
 }
 
 const HomePage = () => {
-  const [photos, setPhotos] = useState<Photo[]>([]); // Use the Photo type here
+  const [photos, setPhotos] = useState<Photo[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   const getImages = async () => {
