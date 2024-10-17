@@ -9,12 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { ImageGallery } from "@georstat/react-native-image-gallery";
-
-type Photo = {
-  id: number;
-  url: string;
-  isSelected: boolean;
-};
+import { Photo } from "../screens/HomeScreen";
 
 interface GalleryProps {
   photos: Photo[];

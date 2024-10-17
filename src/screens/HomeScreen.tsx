@@ -4,13 +4,15 @@ import { View } from "react-native";
 import ImagePickerButton from "../components/ImagePickerButton";
 import Gallery from "../components/ImageGallery";
 import { getCurrentUser } from "aws-amplify/auth";
-import { getUrl, list } from "aws-amplify/storage";
+import { getUrl, list, remove } from "aws-amplify/storage"; // import remove from aws-amplify/storage
 import HeaderBar from "../components/HeaderBar";
+import FooterBar from "../components/FooterBar";
 
-interface Photo {
+export interface Photo {
   id: number;
   url: string;
   isSelected: boolean;
+  path: string;
 }
 
 const HomePage = () => {
@@ -30,7 +32,12 @@ const HomePage = () => {
           const path = await getUrl({
             path: item.path,
           });
-          return { id: index, url: path.url.toString(), isSelected: false };
+          return {
+            id: index,
+            url: path.url.toString(),
+            isSelected: false,
+            path: item.path,
+          };
         })
       );
 
@@ -64,6 +71,33 @@ const HomePage = () => {
       )
     );
   };
+
+  const deleteSelectedPhotos = async () => {
+    try {
+      const selectedPhotos = photos.filter((photo) => photo.isSelected);
+
+      // Deleting from AWS S3
+      const { userId } = await getCurrentUser();
+      await Promise.all(
+        selectedPhotos.map(async (photo) => {
+          const filePath = photo.path;
+          await remove({
+            path: filePath,
+          });
+        })
+      );
+
+      // Remove selected photos from the local state
+      setPhotos((prevPhotos) =>
+        prevPhotos.filter((photo) => !photo.isSelected)
+      );
+
+      setIsSelecting(false);
+    } catch (error) {
+      console.error("Error deleting photos:", error);
+    }
+  };
+
   useEffect(() => {
     getImages();
   }, []);
@@ -82,6 +116,10 @@ const HomePage = () => {
         toggleSelection={toggleSelection}
       />
       <ImagePickerButton addPhotos={addPhotos} />
+      <FooterBar
+        isSelecting={isSelecting}
+        deleteSelectedPhotos={deleteSelectedPhotos}
+      />
     </View>
   );
 };

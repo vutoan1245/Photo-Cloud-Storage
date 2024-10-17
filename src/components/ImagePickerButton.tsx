@@ -2,13 +2,7 @@ import { Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { uploadData } from "aws-amplify/storage";
 import { getCurrentUser } from "aws-amplify/auth";
-
-// Define the Photo type
-interface Photo {
-  id: number;
-  url: string;
-  isSelected: boolean;
-}
+import { Photo } from "../screens/HomeScreen";
 
 interface ImageButtonProps {
   addPhotos: (photos: Photo[]) => void;
@@ -44,6 +38,7 @@ const ImageButton: React.FC<ImageButtonProps> = ({ addPhotos }) => {
               id: index,
               url: asset.uri,
               isSelected: false,
+              path: `photos/${userId}/${filename}`,
             };
           })
         );
