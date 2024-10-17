@@ -51,6 +51,9 @@ const HomePage = () => {
   };
 
   const cancelSelect = () => {
+    setPhotos((prevPhotos) =>
+      prevPhotos.map((photo) => ({ ...photo, isSelected: false }))
+    );
     setIsSelecting(false);
   };
 
