@@ -16,7 +16,6 @@ This project is a mobile application for storing and managing photos in the clou
 - **Backend**: AWS Amplify (Gen 2)
   - **Authentication**: AWS Cognito
   - **Storage**: AWS S3
-  - **API**: AWS AppSync (GraphQL) or REST API Gateway (optional)
 
 ## Prerequisites
 
@@ -46,12 +45,6 @@ If you don't have AWS Amplify CLI installed:
 
 ```bash
 npm install -g @aws-amplify/cli
-```
-
-Configure Amplify CLI with your AWS credentials:
-
-```bash
-amplify configure
 ```
 
 ### 4. Initialize Amplify
