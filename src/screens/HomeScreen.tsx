@@ -115,7 +115,7 @@ const HomePage = () => {
         isSelecting={isSelecting}
         toggleSelection={toggleSelection}
       />
-      <ImagePickerButton addPhotos={addPhotos} />
+      <ImagePickerButton isSelecting={isSelecting} addPhotos={addPhotos} />
       <FooterBar
         isSelecting={isSelecting}
         deleteSelectedPhotos={deleteSelectedPhotos}
