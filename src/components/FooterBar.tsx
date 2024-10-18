@@ -1,5 +1,11 @@
-import React from "react";
-import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
+import React, { useRef, useEffect } from "react";
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  Animated,
+} from "react-native";
 
 interface FooterBarProps {
   deleteSelectedPhotos: () => void;
@@ -10,19 +16,32 @@ const FooterBar: React.FC<FooterBarProps> = ({
   deleteSelectedPhotos,
   isSelecting,
 }) => {
-  if (!isSelecting) {
-    return null; // Only show the footer when in selecting mode
-  }
+  // Animated value for sliding the footer bar
+  const slideAnim = useRef(new Animated.Value(100)).current;
+
+  // Animate the footer bar when isSelecting is toggled
+  useEffect(() => {
+    Animated.timing(slideAnim, {
+      toValue: isSelecting ? 0 : 100,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  }, [isSelecting]);
 
   return (
-    <View style={styles.footerContainer}>
+    <Animated.View
+      style={[
+        styles.footerContainer,
+        { transform: [{ translateY: slideAnim }] },
+      ]}
+    >
       <TouchableOpacity
         onPress={deleteSelectedPhotos}
         style={styles.deleteButton}
       >
         <Text style={styles.deleteButtonText}>Delete</Text>
       </TouchableOpacity>
-    </View>
+    </Animated.View>
   );
 };
 
@@ -35,8 +54,8 @@ const styles = StyleSheet.create({
     height: 60,
     backgroundColor: "#fff",
     justifyContent: "center",
-    alignItems: "flex-end", // Align text to the right
-    paddingRight: 20, // Add padding to the right for spacing
+    alignItems: "flex-end",
+    paddingRight: 20,
     borderTopWidth: 1,
     borderTopColor: "#ccc",
   },
@@ -44,7 +63,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   deleteButtonText: {
-    color: "red", // Set the text color to red
+    color: "red",
     fontSize: 16,
   },
 });
