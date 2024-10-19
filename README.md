@@ -22,7 +22,6 @@ This project is a mobile application for storing and managing photos in the clou
 - Node.js (>=20.x)
 - npm or yarn package manager
 - AWS Account
-- AWS Amplify CLI (v7.x.x or later)
 
 ## Setup
 
@@ -39,15 +38,7 @@ cd Photo-Cloud-Storage
 npm install
 ```
 
-### 3. Install and configure AWS Amplify CLI
-
-If you don't have AWS Amplify CLI installed:
-
-```bash
-npm install -g @aws-amplify/cli
-```
-
-### 4. Initialize Amplify
+### 3. Initialize Amplify
 
 Run the following command to initialize the Amplify backend. This will configure authentication, storage, and API services.
 
@@ -55,7 +46,7 @@ Run the following command to initialize the Amplify backend. This will configure
 npx ampx sandbox
 ```
 
-### 5. Run the Application
+### 4. Run the Application
 
 Once everything is set up, you can start the React Native development server:
 
